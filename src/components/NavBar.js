@@ -15,9 +15,6 @@ const NavBar = () => {
             <li className='inline-block pt-4 pb-4'>
                 <Link to="/articles" className='pl-6 pr-8'>Articles</Link>
             </li>
-            <li className='inline-block pt-4 pb-4'>
-                <Link to="/article" className='pl-6 pr-8'>Article</Link>
-            </li>
         </ul>
     </nav>
   )
