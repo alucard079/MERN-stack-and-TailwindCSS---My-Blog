@@ -1,13 +1,16 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
-import articleContent from './article-content';
+import Articles from '../components/Articles';
+import articles from './article-content';
+import NotFound from './NotFound';
 
 const Article = (props) => {
   let { name } = useParams();
-  const article = articleContent.find((article) => article.name === name);
+  const article = articles.find((article) => article.name === name);
   if(!article) {
-    return (<h1>Article does not exists</h1>)
+    return <NotFound/>
   }
+  const otherArticles = articles.filter(article => article.name !== name);
   return (
     <>
         <h1 className='sm:text-4xl text-2xl font-bold mt-6 mb-6 text-gray-900'>
@@ -20,6 +23,12 @@ const Article = (props) => {
             </p>
           ))
         }
+        <h1 className='sm:text-2x text-xl font-bold mt-4 mb-4 text-gray-900'>
+          Other Articles
+        </h1>
+        <div className='flex flex-wrap -m-4'>
+          <Articles articles={otherArticles}/>
+        </div>
     </>
   )
 }
