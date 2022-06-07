@@ -1,12 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import articles from './article-content';
 import NotFound from './NotFound';
+import CommentList from '../components/CommentList';
+import AddCommentForm from '../components/AddCommentForm';
 
 const Article = (props) => {
-  let { name } = useParams();
+  const { name } = useParams();
   const article = articles.find((article) => article.name === name);
+
+  const [articleInfo, setArticleInfo] = useState({ comments: [] });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(`http://localhost:8000/api/articles/${name}`);
+      const body = await result.json();
+      setArticleInfo(body);
+    }
+    fetchData();
+  }, [name]);
+
   if(!article) {
     return <NotFound/>
   }
@@ -23,6 +37,8 @@ const Article = (props) => {
             </p>
           ))
         }
+        <CommentList comments={articleInfo.comments} setArticleInfo={setArticleInfo}/>
+        <AddCommentForm articleName={name} setArticleInfo={setArticleInfo}/>
         <h1 className='sm:text-2x text-xl font-bold mt-4 mb-4 text-gray-900'>
           Other Articles
         </h1>
